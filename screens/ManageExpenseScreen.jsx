@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Text, View } from "react-native";
 
 const ManageExpensesScreen = ({ route, navigation }) => {
-  console.log("params", route.params);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: !!route.params?.id ? "Edit expense" : "Add expense",
+    });
+  }, [navigation, route]);
 
   return (
     <View>

@@ -1,19 +1,30 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
-const ExpenseItem = () => {
+const ExpenseItem = ({ item }) => {
+  const navigation = useNavigation();
+  const expensePressHandler = () => {
+    navigation.navigate("ManageExpense", { id: item.id });
+  };
+
   return (
-    <Pressable style={styles.itemContainer}>
+    <Pressable
+      style={({ pressed }) =>
+        pressed ? [styles.pressed, styles.itemContainer] : styles.itemContainer
+      }
+      onPress={expensePressHandler}
+    >
       <View style={styles.infoContainer}>
         <View>
-          <Text style={styles.text}>A book</Text>
+          <Text style={styles.text}>{item.title}</Text>
         </View>
         <View>
-          <Text style={styles.text}>2022-2-19</Text>
+          <Text style={styles.text}>{item.date}</Text>
         </View>
       </View>
       <View style={styles.priceContainer}>
-        <Text style={styles.text}>14.99</Text>
+        <Text style={styles.text}>${item.price}</Text>
       </View>
     </Pressable>
   );
@@ -29,12 +40,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "#92B4A7",
     marginVertical: 10,
-    marginHorizontal: 20,
     borderRadius: 8,
   },
+  pressed: { opacity: 0.75 },
   priceContainer: {
     backgroundColor: "#fff",
     padding: 10,
+    paddingHorizontal: 20,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",

@@ -4,19 +4,21 @@ import { Pressable, StyleSheet } from "react-native";
 import RecentExpenses from "../screens/RecentExpenses";
 import AllExpenses from "../screens/AllExpenses";
 import { useNavigation } from "@react-navigation/native";
-import PlusIcon from "./PlusIcon";
+import PlusIcon from "./IconButton";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
-        headerRight: () => <PlusIcon id={1} />,
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: "#D1F0B1" },
         tabBarStyle: { backgroundColor: "#D1F0B1" },
         headerShown: false,
-      }}
+        // headerRight: () => (
+        //   <PlusIcon onPress={() => console.log("Icon Pressed")} />
+        // ),
+      })}
     >
       <Tab.Screen
         name="RecentExpenses"
