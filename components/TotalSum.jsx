@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const TotalSum = () => {
+const TotalSum = ({ title, sum }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>Last 7 Days</Text>
-      <Text style={styles.sum}>$317.72</Text>
+      <Text style={styles.date}>{title}</Text>
+      <Text style={styles.sum}>${sum}</Text>
     </View>
   );
 };

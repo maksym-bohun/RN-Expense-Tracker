@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
+import { getFormattedDate } from "../utils/date";
 
 const ExpenseItem = ({ item }) => {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ const ExpenseItem = ({ item }) => {
           <Text style={styles.text}>{item.title}</Text>
         </View>
         <View>
-          <Text style={styles.text}>{item.date}</Text>
+          <Text style={styles.text}>{getFormattedDate(item.date)}</Text>
         </View>
       </View>
       <View style={styles.priceContainer}>

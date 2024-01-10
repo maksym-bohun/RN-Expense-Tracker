@@ -4,24 +4,72 @@ const expensesSlice = createSlice({
   name: "expenses",
   initialState: {
     expenses: [
-      { id: "e1", title: "A book", date: "2022-2-12", price: "15.00" },
-      { id: "e2", title: "Audi RS5", date: "2025-12-30", price: "45000.00" },
+      {
+        id: "e1",
+        title: "A pair of shoes",
+        price: 59.99,
+        date: new Date("2021-12-19").toISOString(),
+      },
+      {
+        id: "e2",
+        title: "A pair of trousers",
+        price: 89.29,
+        date: new Date("2022-01-05").toISOString(),
+      },
       {
         id: "e3",
-        title: "Macbook Pro 13",
-        date: "2023-06-20",
-        price: "800.00",
+        title: "Some bananas",
+        price: 5.99,
+        date: new Date("2021-12-01").toISOString(),
+      },
+      {
+        id: "e4",
+        title: "A book",
+        price: 14.99,
+        date: new Date("2022-02-19").toISOString(),
+      },
+      {
+        id: "e5",
+        title: "Another book",
+        price: 18.59,
+        date: new Date("2022-02-18").toISOString(),
+      },
+      {
+        id: "e6",
+        title: "A pair of trousers",
+        price: 89.29,
+        date: new Date("2022-01-05").toISOString(),
+      },
+      {
+        id: "e7",
+        title: "Some bananas",
+        price: 5.99,
+        date: new Date("2021-12-01").toISOString(),
+      },
+      {
+        id: "e8",
+        title: "Audi RS5",
+        price: 50000,
+        date: new Date("2024-07-01").toISOString(),
+      },
+      {
+        id: "e9",
+        title: "Another book",
+        price: 18.59,
+        date: new Date("2022-01-18").toISOString(),
       },
     ],
   },
   reducers: {
     addExpense: (state, action) => {
-      state.expenses.unshift(action.payload);
+      const id = new Date().toString() + Math.random().toString();
+      state.expenses.unshift({ ...action.payload, id });
     },
     deleteExpense: (state, action) => {
       const expenseToDelete = state.expenses.find(
         (expense) => expense.id === action.payload.id
       );
+
       if (expenseToDelete)
         state.expenses.splice(state.expenses.indexOf(expenseToDelete), 1);
     },

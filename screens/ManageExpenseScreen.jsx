@@ -26,7 +26,12 @@ const ManageExpensesScreen = ({ route, navigation }) => {
 
   const deleteExpenseHandler = () => {
     navigation.goBack();
-    dispatch(deleteExpense(currentExpense));
+    console.log(currentExpense);
+    dispatch(
+      deleteExpense({
+        ...currentExpense,
+      })
+    );
   };
 
   const cancelHandler = () => {
