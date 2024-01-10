@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import IconButton from "../components/IconButton";
 import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteExpense } from "../store/expensesSlice";
+import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 
 const ManageExpensesScreen = ({ route, navigation }) => {
   const dispatch = useDispatch("expenses");
@@ -44,6 +45,7 @@ const ManageExpensesScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttonsContainer}>
         <Button style={styles.button} mode="flat" onPress={cancelHandler}>
           Cancel
@@ -81,6 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginHorizontal: 20,
+    marginTop: 16,
   },
   button: {
     width: "40%",

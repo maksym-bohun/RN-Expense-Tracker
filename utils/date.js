@@ -1,6 +1,5 @@
 export function getFormattedDate(dateISOString) {
   const date = new Date(dateISOString);
-  console.log("DATE -------", date);
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
