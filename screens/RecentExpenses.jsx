@@ -11,7 +11,7 @@ const RecentExpenses = () => {
   const recentExpenses = expenses.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);
-    return expense.date > date7DaysAgo;
+    return new Date(expense.date) > new Date(date7DaysAgo);
   });
   let sum = 0;
   recentExpenses.forEach((expense) => (sum += expense.price));

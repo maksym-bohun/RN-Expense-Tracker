@@ -9,8 +9,14 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 const ManageExpensesScreen = ({ route, navigation }) => {
   const dispatch = useDispatch("expenses");
   const expenses = useSelector((state) => state.expenses.expenses);
-  const [currentExpense, setCurrentExpense] = useState();
+  const [currentExpense, setCurrentExpense] = useState({
+    price: "",
+    title: "",
+    date: "",
+    id: "",
+  });
   const editMode = !!route.params?.id;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: editMode ? "Edit expense" : "Add expense",
@@ -27,33 +33,27 @@ const ManageExpensesScreen = ({ route, navigation }) => {
 
   const deleteExpenseHandler = () => {
     navigation.goBack();
-    console.log(currentExpense);
-    dispatch(
-      deleteExpense({
-        ...currentExpense,
-      })
-    );
+    if (currentExpense)
+      dispatch(
+        deleteExpense({
+          ...currentExpense,
+        })
+      );
   };
 
   const cancelHandler = () => {
     navigation.goBack();
   };
 
-  const confirmHandler = () => {
-    navigation.goBack();
-  };
-
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttonsContainer}>
-        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={confirmHandler}>
-          {editMode ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        editMode={editMode}
+        cancelHandler={cancelHandler}
+        id={route.params?.id}
+        defaultValues={currentExpense}
+      />
+
       {editMode && (
         <View style={styles.deleteContainer}>
           <IconButton

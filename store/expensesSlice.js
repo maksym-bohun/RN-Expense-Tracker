@@ -8,8 +8,9 @@ const expensesSlice = createSlice({
         id: "e1",
         title: "A pair of shoes",
         price: 59.99,
-        date: new Date("2021-12-19").toISOString(),
+        date: new Date("2024-01-10").toISOString(),
       },
+
       {
         id: "e2",
         title: "A pair of trousers",
@@ -87,4 +88,5 @@ const expensesSlice = createSlice({
 
 export const addExpense = expensesSlice.actions.addExpense;
 export const deleteExpense = expensesSlice.actions.deleteExpense;
+export const editExpense = expensesSlice.actions.editExpense;
 export default expensesSlice.reducer;
