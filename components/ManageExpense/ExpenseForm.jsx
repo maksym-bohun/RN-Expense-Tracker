@@ -12,9 +12,16 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
     date: "",
     title: "",
   });
+  const [inputsAreValid, setInputsAreValid] = useState({
+    price: true,
+    date: true,
+    title: true,
+  });
 
   const dispatch = useDispatch("expenses");
   const navigation = useNavigation();
+  const formInvalid =
+    !inputsAreValid.date || !inputsAreValid.price || !inputsAreValid.title;
 
   const changeInputHandler = (inputIdentifier, value) => {
     setInputValues((prevValues) => ({
@@ -42,6 +49,11 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
 
     if (!priceIsValid || !dateIsValid || !titleIsValid) {
       Alert.alert("Invalid input", "Please check your input values!");
+      setInputsAreValid((curInputs) => ({
+        price: priceIsValid,
+        date: dateIsValid,
+        title: titleIsValid,
+      }));
       return;
     }
 
@@ -59,6 +71,7 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
         <Text style={styles.title}>Your expense</Text>
         <View style={styles.inputsContainer}>
           <Input
+            invalid={!inputsAreValid.price}
             style={styles.input}
             label="Amount"
             textInputConfig={{
@@ -68,6 +81,7 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
             }}
           />
           <Input
+            invalid={!inputsAreValid.date}
             style={styles.input}
             label="Date"
             textInputConfig={{
@@ -79,6 +93,7 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
           />
         </View>
         <Input
+          invalid={!inputsAreValid.title}
           label="Description"
           textInputConfig={{
             value: inputValues.title,
