@@ -3,68 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const expensesSlice = createSlice({
   name: "expenses",
   initialState: {
-    expenses: [
-      {
-        id: "e1",
-        title: "A pair of shoes",
-        price: 59.99,
-        date: new Date("2024-01-10").toISOString(),
-      },
-
-      {
-        id: "e2",
-        title: "A pair of trousers",
-        price: 89.29,
-        date: new Date("2022-01-05").toISOString(),
-      },
-      {
-        id: "e3",
-        title: "Some bananas",
-        price: 5.99,
-        date: new Date("2021-12-01").toISOString(),
-      },
-      {
-        id: "e4",
-        title: "A book",
-        price: 14.99,
-        date: new Date("2022-02-19").toISOString(),
-      },
-      {
-        id: "e5",
-        title: "Another book",
-        price: 18.59,
-        date: new Date("2022-02-18").toISOString(),
-      },
-      {
-        id: "e6",
-        title: "A pair of trousers",
-        price: 89.29,
-        date: new Date("2022-01-05").toISOString(),
-      },
-      {
-        id: "e7",
-        title: "Some bananas",
-        price: 5.99,
-        date: new Date("2021-12-01").toISOString(),
-      },
-      {
-        id: "e8",
-        title: "Audi RS5",
-        price: 50000,
-        date: new Date("2024-07-01").toISOString(),
-      },
-      {
-        id: "e9",
-        title: "Another book",
-        price: 18.59,
-        date: new Date("2022-01-18").toISOString(),
-      },
-    ],
+    expenses: [],
   },
   reducers: {
     addExpense: (state, action) => {
-      const id = new Date().toString() + Math.random().toString();
-      state.expenses.unshift({ ...action.payload, id });
+      state.expenses.unshift(action.payload);
+    },
+    setExpenses: (state, action) => {
+      const fetchedExpenses = action.payload.reverse();
+      fetchedExpenses.map(
+        (expense) => (expense.date = expense.date.toISOString())
+      );
+      state.expenses = fetchedExpenses;
     },
     deleteExpense: (state, action) => {
       const expenseToDelete = state.expenses.find(
@@ -76,7 +26,7 @@ const expensesSlice = createSlice({
     },
     editExpense: (state, action) => {
       const expenseToEdit = state.expenses.find(
-        (expense) => action.payload.id === expense.id
+        (expense) => action.payload.expenseId === expense.id
       );
       state.expenses[state.expenses.indexOf(expenseToEdit)] = {
         ...expenseToEdit,
@@ -89,4 +39,5 @@ const expensesSlice = createSlice({
 export const addExpense = expensesSlice.actions.addExpense;
 export const deleteExpense = expensesSlice.actions.deleteExpense;
 export const editExpense = expensesSlice.actions.editExpense;
+export const setExpenses = expensesSlice.actions.setExpenses;
 export default expensesSlice.reducer;

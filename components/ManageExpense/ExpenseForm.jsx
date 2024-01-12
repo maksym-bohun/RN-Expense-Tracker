@@ -5,8 +5,15 @@ import Button from "../Button";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { addExpense, editExpense } from "../../store/expensesSlice";
+import { storeExpense, updateExpense } from "../../utils/http";
 
-const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
+const ExpenseForm = ({
+  cancelHandler,
+  editMode,
+  defaultValues,
+  expenseId,
+  setIsSubmitting,
+}) => {
   const [inputValues, setInputValues] = useState({
     price: "",
     date: "",
@@ -34,7 +41,8 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
     if (defaultValues) setInputValues(defaultValues);
   }, [defaultValues]);
 
-  const confirmHandler = () => {
+  const confirmHandler = async () => {
+    setIsSubmitting(true);
     const expenseData = {
       price: +inputValues.price,
       date: new Date(inputValues.date).toISOString(),
@@ -54,14 +62,18 @@ const ExpenseForm = ({ cancelHandler, editMode, id, defaultValues }) => {
         date: dateIsValid,
         title: titleIsValid,
       }));
+      setIsSubmitting(false);
       return;
     }
 
     if (editMode) {
-      dispatch(editExpense({ ...expenseData, id }));
+      dispatch(editExpense({ ...expenseData, expenseId }));
+      updateExpense(expenseId, expenseData);
     } else {
-      dispatch(addExpense(expenseData));
+      const id = await storeExpense(expenseData);
+      dispatch(addExpense({ ...expenseData, id }));
     }
+    setIsSubmitting(false);
     navigation.goBack();
   };
 

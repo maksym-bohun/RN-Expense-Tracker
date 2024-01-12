@@ -5,10 +5,14 @@ import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteExpense } from "../store/expensesSlice";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { deleteExpenseHttp } from "../utils/http";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const ManageExpensesScreen = ({ route, navigation }) => {
   const dispatch = useDispatch("expenses");
   const expenses = useSelector((state) => state.expenses.expenses);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [currentExpense, setCurrentExpense] = useState({
     price: "",
     title: "",
@@ -31,26 +35,33 @@ const ManageExpensesScreen = ({ route, navigation }) => {
     }
   }, [route, navigation]);
 
-  const deleteExpenseHandler = () => {
-    navigation.goBack();
-    if (currentExpense)
+  const deleteExpenseHandler = async () => {
+    setIsSubmitting(true);
+    if (currentExpense) {
       dispatch(
         deleteExpense({
           ...currentExpense,
         })
       );
+      await deleteExpenseHttp(route.params?.id);
+      navigation.goBack();
+    }
+    setIsSubmitting(false);
   };
 
   const cancelHandler = () => {
     navigation.goBack();
   };
 
+  if (isSubmitting) return <LoadingOverlay />;
+
   return (
     <View style={styles.container}>
       <ExpenseForm
+        setIsSubmitting={setIsSubmitting}
         editMode={editMode}
         cancelHandler={cancelHandler}
-        id={route.params?.id}
+        expenseId={route.params?.id}
         defaultValues={currentExpense}
       />
 
